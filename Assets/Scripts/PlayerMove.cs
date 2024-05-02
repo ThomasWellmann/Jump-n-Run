@@ -39,7 +39,7 @@ public class PlayerMove : MonoBehaviour
             transform.position = newPosition;
         }
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(2))
         {
             playerAnimator.SetBool("attacking", true);
         }
