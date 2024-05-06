@@ -25,12 +25,8 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        playerAnimator.SetBool("running", false);
-        playerAnimator.SetBool("jumping", false);
         if (Mathf.Abs(moveInput.x) > 0f)
         {
-            playerAnimator.SetBool("running", true);
-
             if (moveInput.x < 0f)
                 playerSpriteRenderer.flipX = true;
             else 
@@ -46,6 +42,7 @@ public class PlayerMove : MonoBehaviour
 
         if(IsGrounded())
         {
+            Debug.Log(jumpCount);
             jumpCount = 0;
             lastGroundTime = Time.time;
         }
@@ -55,8 +52,13 @@ public class PlayerMove : MonoBehaviour
         {
             playerAnimator.SetBool("jumping", true);
             jumpCount++;
-            Debug.Log(jumpCount);
+            //Debug.Log(jumpCount);
         }
+
+        playerAnimator.SetFloat("ySpeed", playerRigidbody2D.velocity.y);
+        playerAnimator.SetFloat("xSpeed", Mathf.Abs(playerRigidbody2D.velocity.x));
+        Debug.Log(playerRigidbody2D.velocity.y);
+        //Debug.Log(playerRigidbody2D.velocity.x);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -70,11 +72,13 @@ public class PlayerMove : MonoBehaviour
         {
             playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, 0f);
             playerRigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            jumpCount++;
+            playerAnimator.SetBool("jumping", true);
         }
     }
     
     private bool IsGrounded()
     {
-        return Physics2D.OverlapBox(groundCheckPosition.position, groundCheckPosition.lossyScale, 0 , groundLayer) != null && playerRigidbody2D.velocity.y <= Mathf.Epsilon;
+        return Physics2D.OverlapBox(groundCheckPosition.position, groundCheckPosition.lossyScale, 0, groundLayer) != null && playerRigidbody2D.velocity.y <= Mathf.Epsilon;
     }
 }
