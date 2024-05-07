@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour
         {
             if (moveInput.x < 0f)
                 playerSpriteRenderer.flipX = true;
-            else 
+            else //if (moveInput.x > 0f)
                 playerSpriteRenderer.flipX = false;
 
             playerRigidbody2D.AddForce(new Vector2(moveInput.x * acceleration, 0));
@@ -46,14 +46,11 @@ public class PlayerMove : MonoBehaviour
             jumpCount = 0;
             lastGroundTime = Time.time;
         }
-        else if(jumpCount == 0
-            //&& lastGroundTime + coyoteTimeCount < Time.time
-            )
-        {
-            playerAnimator.SetBool("jumping", true);
-            jumpCount++;
-            //Debug.Log(jumpCount);
-        }
+        //else if(jumpCount == 0)
+        //{
+        //    jumpCount++;
+        //    //Debug.Log(jumpCount);
+        //}
 
         playerAnimator.SetFloat("ySpeed", playerRigidbody2D.velocity.y);
         playerAnimator.SetFloat("xSpeed", Mathf.Abs(playerRigidbody2D.velocity.x));
@@ -61,27 +58,29 @@ public class PlayerMove : MonoBehaviour
         //Debug.Log(playerRigidbody2D.velocity.x);
     }
 
-    private void Update()
+    public void OnAttack(InputAction.CallbackContext context)// Mouse Right-Click
     {
-        if (Input.GetMouseButtonDown(0))
+        if (context.phase == InputActionPhase.Performed)
             playerAnimator.SetBool("attacking", true);
         else
             playerAnimator.SetBool("attacking", false);
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context) // WASD
     {
         moveInput = context.ReadValue<Vector2>();
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)// Spacebar
     {
-        if (context.phase == InputActionPhase.Performed && jumpCount < maxJumps)
-        {
-            playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, 0f);
-            playerRigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            jumpCount++;
-            playerAnimator.SetBool("jumping", true);
+        if (context.phase == InputActionPhase.Performed && jumpCount < maxJumps && (!IsGrounded() && lastGroundTime + coyoteTimeCount < Time.time  || IsGrounded()))
+        {// Time spam to dobble-jump: 0.5s (after 0.5s on air)
+            if (lastGroundTime + coyoteTimeCount * 2 > Time.time)
+            {
+                playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, 0f);
+                playerRigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                jumpCount++;
+            }
         }
     }
     

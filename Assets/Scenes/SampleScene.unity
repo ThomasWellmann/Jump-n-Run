@@ -2313,7 +2313,7 @@ MonoBehaviour:
   deceleration: 15
   jumpForce: 5
   maxJumps: 2
-  coyoteTimeCount: 1
+  coyoteTimeCount: 0.5
   playerSpriteRenderer: {fileID: 1669157007}
   playerAnimator: {fileID: 1669157011}
   playerRigidbody2D: {fileID: 1669157005}
@@ -2444,6 +2444,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 30358109-73ea-498c-92f3-1cb5c79fd3ef
     m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1669157009}
+        m_TargetAssemblyTypeName: PlayerMove, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2465fcb5-24f7-4b84-8438-d51464895c90
+    m_ActionName: Player/Attack[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
