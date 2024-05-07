@@ -61,6 +61,14 @@ public class PlayerMove : MonoBehaviour
         //Debug.Log(playerRigidbody2D.velocity.x);
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+            playerAnimator.SetBool("attacking", true);
+        else
+            playerAnimator.SetBool("attacking", false);
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
