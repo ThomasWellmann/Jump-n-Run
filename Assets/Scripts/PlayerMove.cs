@@ -42,19 +42,14 @@ public class PlayerMove : MonoBehaviour
 
         if(IsGrounded())
         {
-            Debug.Log(jumpCount);
+            //Debug.Log(jumpCount);
             jumpCount = 0;
             lastGroundTime = Time.time;
         }
-        //else if(jumpCount == 0)
-        //{
-        //    jumpCount++;
-        //    //Debug.Log(jumpCount);
-        //}
 
         playerAnimator.SetFloat("ySpeed", playerRigidbody2D.velocity.y);
         playerAnimator.SetFloat("xSpeed", Mathf.Abs(playerRigidbody2D.velocity.x));
-        Debug.Log(playerRigidbody2D.velocity.y);
+        //Debug.Log(playerRigidbody2D.velocity.y);
         //Debug.Log(playerRigidbody2D.velocity.x);
     }
 
@@ -73,20 +68,23 @@ public class PlayerMove : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)// Spacebar
     {
-        if (context.phase == InputActionPhase.Performed && jumpCount < maxJumps && 
-            (!IsGrounded() && lastGroundTime + coyoteTimeCount < Time.time  || IsGrounded()))
+        if (context.phase == InputActionPhase.Performed && jumpCount < maxJumps &&
+            ((!IsGrounded() && lastGroundTime + coyoteTimeCount < Time.time)  || IsGrounded()))
         {// Time spam to dobble-jump: 0.5s (after 0.5s on air)
             if (lastGroundTime + coyoteTimeCount * 2 > Time.time)
             {
+                //Debug.Log("Jumped");
                 playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, 0f);
                 playerRigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 jumpCount++;
+
             }
         }
+
     }
     
     private bool IsGrounded()
     {
-        return Physics2D.OverlapBox(groundCheckPosition.position, groundCheckPosition.lossyScale, 0, groundLayer) != null && playerRigidbody2D.velocity.y <= Mathf.Epsilon;
+        return Physics2D.OverlapBox(groundCheckPosition.position, groundCheckPosition.lossyScale, 0, groundLayer) != null;
     }
 }
