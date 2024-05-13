@@ -73,7 +73,8 @@ public class PlayerMove : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)// Spacebar
     {
-        if (context.phase == InputActionPhase.Performed && jumpCount < maxJumps && (!IsGrounded() && lastGroundTime + coyoteTimeCount < Time.time  || IsGrounded()))
+        if (context.phase == InputActionPhase.Performed && jumpCount < maxJumps && 
+            (!IsGrounded() && lastGroundTime + coyoteTimeCount < Time.time  || IsGrounded()))
         {// Time spam to dobble-jump: 0.5s (after 0.5s on air)
             if (lastGroundTime + coyoteTimeCount * 2 > Time.time)
             {
