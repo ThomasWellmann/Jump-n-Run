@@ -77,7 +77,6 @@ public class PlayerMove : MonoBehaviour
                 playerRigidbody2D.velocity = new Vector2(playerRigidbody2D.velocity.x, 0f);
                 playerRigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 jumpCount++;
-
             }
         }
 
